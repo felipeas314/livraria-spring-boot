@@ -1,0 +1,5 @@
+br/com/livraria/controllers/AutorController.class
+br/com/livraria/repository/AutorRepository.class
+br/com/livraria/services/AutorService.class
+br/com/livraria/models/Autor.class
+br/com/livraria/LivrariaApplication.class
