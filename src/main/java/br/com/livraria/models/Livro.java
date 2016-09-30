@@ -27,6 +27,8 @@ public class Livro {
 	@ManyToOne
 	private Categoria categoria;
 
+	private String ISBN;
+
 	public UUID getId() {
 		return id;
 	}
@@ -73,6 +75,14 @@ public class Livro {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public String getISBN() {
+		return ISBN;
+	}
+
+	public void setISBN(String iSBN) {
+		ISBN = iSBN;
 	}
 
 }
