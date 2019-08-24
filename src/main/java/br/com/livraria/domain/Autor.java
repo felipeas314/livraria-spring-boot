@@ -1,13 +1,13 @@
-package br.com.livraria.models;
+package br.com.livraria.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Autor {
@@ -17,12 +17,17 @@ public class Autor {
 	private Integer id;
 
 	@NotEmpty
+	@NotBlank
 	private String nome;
 
-	@NotNull
-	private Date dataDeNascimento;
-
 	@NotEmpty
+	@NotBlank
+	private String email;
+
+	@NotNull
+	@NotBlank
+	private LocalDate dataDeNascimento;
+
 	private String sobre;
 
 	public Integer getId() {
@@ -41,11 +46,11 @@ public class Autor {
 		this.nome = nome;
 	}
 
-	public String getDataDeNascimento() {
-		return dataDeNascimento.toString();
+	public LocalDate getDataDeNascimento() {
+		return dataDeNascimento;
 	}
 
-	public void setDataDeNascimento(Date dataDeNascimento) {
+	public void setDataDeNascimento(LocalDate dataDeNascimento) {
 		this.dataDeNascimento = dataDeNascimento;
 	}
 

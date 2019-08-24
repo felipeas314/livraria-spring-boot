@@ -1,4 +1,4 @@
-package br.com.livraria.models;
+package br.com.livraria.domain;
 
 import java.time.LocalDate;
 import java.util.UUID;
