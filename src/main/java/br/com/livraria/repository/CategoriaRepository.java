@@ -1,11 +1,9 @@
 package br.com.livraria.repository;
 
-import java.util.UUID;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.livraria.domain.Categoria;
 
-public interface CategoriaRepository extends CrudRepository<Categoria, UUID> {
+public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
 }

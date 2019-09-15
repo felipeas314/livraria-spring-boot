@@ -1,47 +1,81 @@
 package br.com.livraria.controller;
 
+import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.livraria.domain.Categoria;
+import br.com.livraria.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping("v1/categoria")
 public class CategoriaController {
 
-	@RequestMapping(method = RequestMethod.POST, value = "")
-	public ResponseEntity<?> adiciona(@RequestBody Categoria categoria) {
-		return null;
+	private CategoriaRepository categoriaRepository;
+
+	public CategoriaController(CategoriaRepository categoriaRepository) {
+		this.categoriaRepository = categoriaRepository;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/todos")
-	public ResponseEntity<?> listaTodos() {
-		return null;
+	@PostMapping
+	public ResponseEntity<Categoria> adiciona(@Valid @RequestBody Categoria categoria) {
+		categoriaRepository.save(categoria);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{id}")
+				.buildAndExpand(categoria.getId()).toUri();
+
+		return ResponseEntity.created(location).body(categoria);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "")
-	public ResponseEntity<?> listaComPaginacao() {
-		return null;
+	@GetMapping("/lista/todos")
+	public ResponseEntity<List<Categoria>> listaTodos() {
+		return ResponseEntity.ok(categoriaRepository.findAll());
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public ResponseEntity<?> buscaPorId(@PathVariable("id") UUID id) {
-		return null;
+	@GetMapping("/lista")
+	public ResponseEntity<Page<Categoria>> listaComPaginacao(@PageableDefault(page = 0, size = 10) Pageable pageable) {
+		return ResponseEntity.ok(categoriaRepository.findAll(pageable));
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "")
-	public ResponseEntity<?> atualiza(@RequestBody Categoria categoria) {
-		return null;
+	@GetMapping("/buscaporid/{id}")
+	public ResponseEntity<Categoria> buscaPorId(@PathVariable("id") Integer id) {
+		return categoriaRepository.findById(id).map(category -> ResponseEntity.ok().body(category))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-	public ResponseEntity<?> remove(@PathVariable("id") UUID id) {
-		return null;
+	@PutMapping("/atualiza/{id}")
+	public ResponseEntity<Categoria> atualiza(@RequestBody Categoria categoria, @PathVariable("id") Integer id) {
+		return categoriaRepository.findById(id).map(c -> {
+
+			c.setDescricao(categoria.getDescricao());
+			c.setNome(categoria.getNome());
+
+			return ResponseEntity.ok(c);
+		}).orElse(ResponseEntity.notFound().build());
+	}
+
+	@DeleteMapping("/deleta/{id}")
+	public ResponseEntity<?> remove(@PathVariable("id") Integer id) {
+		return categoriaRepository.findById(id).map(categoria -> {
+			categoriaRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}).orElse(ResponseEntity.notFound().build());
 	}
 }
