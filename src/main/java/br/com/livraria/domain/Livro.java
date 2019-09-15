@@ -13,7 +13,7 @@ public class Livro {
 
 	@Id
 	@GeneratedValue
-	private UUID id;
+	private Integer id;
 
 	private String nome;
 
@@ -29,11 +29,13 @@ public class Livro {
 
 	private String ISBN;
 
-	public UUID getId() {
+	private int quantidadeEmEstoque;
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -83,6 +85,22 @@ public class Livro {
 
 	public void setISBN(String iSBN) {
 		ISBN = iSBN;
+	}
+
+	public int getQuantidadeEmEstoque() {
+		return quantidadeEmEstoque;
+	}
+
+	public void setQuantidadeEmEstoque(int quantidadeEmEstoque) {
+		this.quantidadeEmEstoque = quantidadeEmEstoque;
+	}
+
+	public boolean existeEmEstoque(int quandidadeDoPedido) {
+		if (quandidadeDoPedido > quantidadeEmEstoque) {
+			return false;
+		}
+
+		return true;
 	}
 
 }

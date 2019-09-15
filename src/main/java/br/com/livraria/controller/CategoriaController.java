@@ -25,7 +25,7 @@ import br.com.livraria.domain.Categoria;
 import br.com.livraria.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("v1/categoria")
+@RequestMapping("categorias")
 public class CategoriaController {
 
 	private CategoriaRepository categoriaRepository;
