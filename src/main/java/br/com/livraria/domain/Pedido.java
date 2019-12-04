@@ -18,13 +18,44 @@ public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@OneToMany
 	private List<Livro> livros;
 
 	private BigDecimal precoTotal;
-	
+
 	private LocalDateTime dataDoPedido;
-	
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
+	}
+
+	public BigDecimal getPrecoTotal() {
+		return precoTotal;
+	}
+
+	public void setPrecoTotal(BigDecimal precoTotal) {
+		this.precoTotal = precoTotal;
+	}
+
+	public LocalDateTime getDataDoPedido() {
+		return dataDoPedido;
+	}
+
+	public void setDataDoPedido(LocalDateTime dataDoPedido) {
+		this.dataDoPedido = dataDoPedido;
+	}
+
 }
