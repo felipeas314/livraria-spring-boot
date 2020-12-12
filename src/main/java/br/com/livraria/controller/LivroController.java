@@ -9,15 +9,18 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.livraria.domain.Categoria;
 import br.com.livraria.domain.Livro;
 import br.com.livraria.repository.LivroRepository;
 
@@ -53,16 +56,25 @@ public class LivroController {
 
 	@GetMapping("/buscaPorId/{id}")
 	public ResponseEntity<Livro> buscaPorId(@PathVariable("id") Integer id) {
-		return null;
+		return livroRepository.findById(id).map(livro -> ResponseEntity.ok().body(livro))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "")
-	public ResponseEntity<?> atualiza(@RequestBody Livro livro) {
-		return null;
+	@PutMapping("/atualiza/{id}")
+	public ResponseEntity<Livro> atualiza(@RequestBody Livro livro, @PathVariable("id") Integer id) {
+		return livroRepository.findById(id).map(l -> {
+
+			l.setNome(livro.getNome());
+
+			return ResponseEntity.ok(l);
+		}).orElse(ResponseEntity.notFound().build());
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-	public ResponseEntity<?> remove(@PathVariable("id") UUID id) {
-		return null;
+	@DeleteMapping("/deleta/{id}")
+	public ResponseEntity<?> remove(@PathVariable("id") Integer id) {
+		return livroRepository.findById(id).map(livro -> {
+			livroRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}).orElse(ResponseEntity.notFound().build());
 	}
 }
