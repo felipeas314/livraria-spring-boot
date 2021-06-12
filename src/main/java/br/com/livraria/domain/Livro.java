@@ -1,5 +1,6 @@
 package br.com.livraria.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -30,6 +31,8 @@ public class Livro {
 	private String ISBN;
 
 	private int quantidadeEmEstoque;
+
+	private BigDecimal price;
 
 	public Integer getId() {
 		return id;
@@ -101,6 +104,14 @@ public class Livro {
 		}
 
 		return true;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 }

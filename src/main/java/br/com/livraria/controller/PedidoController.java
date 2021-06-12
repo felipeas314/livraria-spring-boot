@@ -62,9 +62,9 @@ public class PedidoController {
 	@GetMapping("/atualiza/{id}")
 	public ResponseEntity<Pedido> atualiza(@RequestBody Pedido pedido, @PathVariable("id") Integer id) {
 		return pedidoRepository.findById(id).map(p -> {
-			
+
 			p.setLivros(pedido.getLivros());
-			
+
 			return ResponseEntity.ok(p);
 		}).orElse(ResponseEntity.notFound().build());
 	}
