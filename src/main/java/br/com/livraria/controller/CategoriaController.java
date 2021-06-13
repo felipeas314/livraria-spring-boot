@@ -34,6 +34,7 @@ public class CategoriaController {
 		this.categoriaRepository = categoriaRepository;
 	}
 
+	//@Validated
 	@PostMapping
 	public ResponseEntity<Categoria> adiciona(@Valid @RequestBody Categoria categoria) {
 		categoriaRepository.save(categoria);

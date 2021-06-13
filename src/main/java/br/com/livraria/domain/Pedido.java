@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,9 @@ public class Pedido {
 	private BigDecimal precoTotal;
 
 	private LocalDateTime dataDoPedido;
+	
+	@Embedded
+	private Endereco endereco;
 
 	public Integer getId() {
 		return id;
@@ -58,4 +62,7 @@ public class Pedido {
 		this.dataDoPedido = dataDoPedido;
 	}
 
+	public BigDecimal calculaPrecoDoPedido() {
+		return livros.stream().map(Livro::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
 }
